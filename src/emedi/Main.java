@@ -71,9 +71,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Rectangle rectangle1 = new Rectangle();
     VBox vBoxIntrebari;
 
-    VBox vBoxVarianteRaspuns;
+    VBox vBoxIntrebareSiVariante;
     HBox hBoxButoane;
-    VBox vBoxVarianteSiButoane;
+    VBox vBoxIntrebareVarianteButoaneRaspuns;
 
     VBox vBoxRezultate;
     HBox hBoxButoane2;
@@ -84,10 +84,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     VBox vBoxIntrebariGresite;
     VBox vBoxEseu;
 
+    HBox hBoxVarButRaspCorect;
 
     Text questionNrField = new Text();
     Text rezultat = new Text("Punctaj: ");
-    Text questionsArea = new Text();
+    Text questionText = new Text();
     Text bunVenit = new Text("TEST EMINESCU");
     Text rezultatTest = new Text();
     Text rezultatText = new Text();
@@ -95,10 +96,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Text titluIntrebariGresite = new Text("Intrebarile la care ati gresit");
     Text intrebariGresiteText = new Text();
     Text feedbackText = new Text();
+    Text raspunsCorectGresit = new Text();
 
     BorderPane borderPanePaginaIntrebari = new BorderPane();
     StackPane stackPaneFeedback = new StackPane();
-
 
     public static void main(String[] args) {
         launch(args);
@@ -117,8 +118,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxD = new CheckBox();
         checkBoxD.setIndeterminate(false);
 
-
-
         intrebariGresiteText.setText(intrebariGresiteArrayList.toString());
         rezultatText.setTextAlignment(TextAlignment.CENTER);
         rezultat.setTextAlignment(TextAlignment.CENTER);
@@ -131,6 +130,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rezultatText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         titluEseu.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         titluIntrebariGresite.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
+        questionNrField.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 15));
+        questionText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
+        questionText.setWrappingWidth(width-margine);
+        feedbackText.setWrappingWidth(width-margine);
+
 
         buttonIntrebariGresite.setDisable(true);
         buttonTrimiteRaspunsul.setDisable(true);
@@ -152,46 +156,54 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             buttonTrimiteRaspunsul.setDisable(false);
         });
 
-
         vBoxInceput = new VBox(50);
         vBoxInceput.setPadding(new Insets(15, 12, 15, 12));
         vBoxInceput.getChildren().addAll(bunVenit, buttonIncepeTestul);
         vBoxInceput.setAlignment(Pos.CENTER);
 
+        hBoxButoane2 = new HBox(10);
+        hBoxButoane2.setPadding(new Insets(15, 12, 15, 12));
+        hBoxButoane2.setAlignment(Pos.BOTTOM_CENTER);
+        hBoxButoane2.getChildren().addAll(buttonIntrebariGresite, buttonArataEseu, buttonRefaTestul);
+
+        //vbox pentru intrebare si variante
+        vBoxIntrebareSiVariante = new VBox(10);
+        vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 12));
+        vBoxIntrebareSiVariante.getChildren().addAll(questionText, checkBoxA, checkBoxB, checkBoxC, checkBoxD);
+        vBoxIntrebareSiVariante.setVisible(true);
+        vBoxIntrebareSiVariante.setAlignment(Pos.CENTER_LEFT);
+
+        //hbox cu intrebare, variante si raspuns
+        hBoxVarButRaspCorect = new HBox(10);
+        raspunsCorectGresit.setTextAlignment(TextAlignment.LEFT);
+        hBoxVarButRaspCorect.getChildren().addAll(vBoxIntrebareSiVariante, raspunsCorectGresit);
+
+        //hbox pentru cele 2 butoane
         hBoxButoane = new HBox(20);
         hBoxButoane.setPadding(new Insets(15, 12, 15, 12));
         hBoxButoane.setAlignment(Pos.BOTTOM_LEFT);
         hBoxButoane.getChildren().addAll(buttonTrimiteRaspunsul, buttonUrmatoareaIntrebare);
 
-        hBoxButoane2 = new HBox(20);
-        hBoxButoane2.setPadding(new Insets(15, 12, 15, 12));
-        hBoxButoane2.setAlignment(Pos.BOTTOM_CENTER);
-        hBoxButoane2.getChildren().addAll(buttonIntrebariGresite, buttonArataEseu, buttonRefaTestul);
+        vBoxIntrebareVarianteButoaneRaspuns = new VBox(10);
+        vBoxIntrebareVarianteButoaneRaspuns.setPadding(new Insets(15, 12, 15, margine));
+        vBoxIntrebareVarianteButoaneRaspuns.setFillWidth(true);
+        vBoxIntrebareVarianteButoaneRaspuns.getChildren().addAll(hBoxVarButRaspCorect, hBoxButoane);
+        vBoxIntrebareVarianteButoaneRaspuns.setAlignment(Pos.TOP_RIGHT);
 
-        vBoxVarianteRaspuns = new VBox(20);
-        vBoxVarianteRaspuns.setPadding(new Insets(15, 12, 15, 12));
-        vBoxVarianteRaspuns.getChildren().addAll(checkBoxA, checkBoxB, checkBoxC, checkBoxD);
-        vBoxVarianteRaspuns.setVisible(true);
-        vBoxVarianteRaspuns.setAlignment(Pos.CENTER_LEFT);
 
         vBoxIntrebari = new VBox(10);
         vBoxIntrebari.setPadding(new Insets(15, 12, 15, 12));
         vBoxIntrebari.setFillWidth(true);
-        vBoxIntrebari.getChildren().addAll(questionNrField, questionsArea);
+        vBoxIntrebari.getChildren().addAll(questionNrField);
         vBoxIntrebari.setAlignment(Pos.CENTER);
 
         rectangle1.setFill(Color.TRANSPARENT);
         rectangle1.setStroke(Color.BLACK);
+        rectangle1.setStrokeWidth(2);
         rectangle1.setWidth(width - margine);
-        rectangle1.setHeight(100);
-        rectangle1.setX(margine / 2);
-//        rectangle1.setY(margine/2);
+        rectangle1.setHeight(50);
 
-        vBoxVarianteSiButoane = new VBox(20);
-        vBoxVarianteSiButoane.setPadding(new Insets(15, 12, 15, 12));
-        vBoxVarianteSiButoane.setFillWidth(true);
-        vBoxVarianteSiButoane.getChildren().addAll(vBoxVarianteRaspuns, hBoxButoane);
-        vBoxVarianteSiButoane.setAlignment(Pos.CENTER);
+
 
         vBoxFeedback = new VBox(10);
         vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
@@ -202,8 +214,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle2.setFill(Color.TRANSPARENT);
         rectangle2.setStroke(Color.BLACK);
         rectangle2.setWidth(width - margine);
-        rectangle2.setHeight(100);
-        //rectangle2.setX(margine/2);
+        rectangle2.setHeight(80);
+        rectangle2.setStrokeWidth(2);
 
         vBoxIntrebariGresite = new VBox(10);
         vBoxIntrebariGresite.setPadding(new Insets(15, 15, 15, 15));
@@ -234,7 +246,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         stackPaneFeedback.getChildren().addAll(rectangle2, vBoxFeedback);
 
         borderPanePaginaIntrebari.setTop(stackPaneIntrebari);
-        borderPanePaginaIntrebari.setCenter(vBoxVarianteSiButoane);
+        borderPanePaginaIntrebari.setCenter(vBoxIntrebareVarianteButoaneRaspuns);
+
+        borderPanePaginaIntrebari.setMaxWidth(width);
+        borderPanePaginaIntrebari.setMaxHeight(height);
 
         BorderPane borderPaneRezultate = new BorderPane();
         borderPaneRezultate.setCenter(vBoxRezultate);
@@ -253,14 +268,16 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneEseu = new Scene(scrollPaneEseu, width, height);
         Scene sceneIntrebariGresite = new Scene(scrollPaneIntrebariGresite, width, height);
 
+
         intrebariGresiteText.setWrappingWidth(sceneRezultate.getWidth() - 50);
         textEseu.setWrappingWidth(sceneEseu.getWidth() - 50);
-        feedbackText.setWrappingWidth(sceneRezultate.getWidth()-margine);
+        feedbackText.setWrappingWidth(sceneRezultate.getWidth() - margine);
         feedbackText.setTextAlignment(TextAlignment.CENTER);
         Scene sceneInitial = new Scene(stackPanePrimaPagina, width, height);
 
         sceneInitial.getStylesheets().add("emedi/firstpage.css");
         sceneInitial.getStylesheets().add("emedi/button.css");
+        sceneIntrebari.getStylesheets().add("emedi/checkbox.css");
         sceneIntrebari.getStylesheets().add("emedi/whiteBackground.css");
         sceneIntrebari.getStylesheets().add("emedi/button.css");
         sceneIntrebari.getStylesheets().add("emedi/whiteBackground.css");
@@ -307,6 +324,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         buttonUrmatoareaIntrebare.setOnAction(actionEvent -> {
             index++;
+            raspunsCorectGresit.setText("");
             checkBoxA.setDisable(false);
             checkBoxB.setDisable(false);
             checkBoxC.setDisable(false);
@@ -345,6 +363,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             buttonUrmatoareaIntrebare.setText("Urmatoarea intrebare");
             primaryStage.setScene(sceneInitial);
         });
+
+        primaryStage.setResizable(true);
         primaryStage.show();
 
     }
@@ -352,11 +372,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     public void nextQuestion() {
         borderPanePaginaIntrebari.setBottom(null);
+
         if (index >= nrIntrebari) {
             results();
         } else {
             questionNrField.setText("Intrebarea numarul " + (index + 1) + " din " + nrIntrebari + ":");
-            questionsArea.setText(intrebariArray[index]);
+            questionText.setText(intrebariArray[index]);
             checkBoxA.setText(varianteDeRaspuns[index][0]);
             checkBoxA.setSelected(false);
             checkBoxB.setText(varianteDeRaspuns[index][1]);
@@ -369,18 +390,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     }
 
     public void displayAnswer() {
-
         if (guess.toString().equals(raspunsuriCorecte[index])) {
-            feedbackText.setText(" Răspuns corect!");
+            raspunsCorectGresit.setText(" Răspuns corect!");
         } else {
-            feedbackText.setText(" Raspuns gresit!\n " + feedback[index]);
+            raspunsCorectGresit.setText("Raspuns gresit!");
+            feedbackText.setText(feedback[index]);
             helperFeedbackFinal.append(intrebariArray[index] + "\n" +
                     "A. " + varianteDeRaspuns[index][0] + "\n" +
                     "B. " + varianteDeRaspuns[index][1] + "\n" +
                     "C. " + varianteDeRaspuns[index][2] + "\n" +
-                    "D. " + varianteDeRaspuns[index][3] + "\n\n");
+                    "D. " + varianteDeRaspuns[index][3] + "\n"+"\n");
+            borderPanePaginaIntrebari.setBottom(stackPaneFeedback);
         }
-        borderPanePaginaIntrebari.setBottom(stackPaneFeedback);
     }
 
     public void results() {
