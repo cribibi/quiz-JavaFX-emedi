@@ -25,10 +25,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             " Ce forma Imbraca adverbul iar, din din incipit?",
             " Discursul fetei din prima secvența este o interogație retorica, dar si o enumeratie marcata de repetarea lui…"};
 
+    String[] intrebariArrayIstorie = {" Care ",
+            " Ce ?",
+            " De marcata de repetarea lui…"};
+
     String[][] varianteDeRaspuns = {{"Ion Popescu", "Mihail Eminovici", "Gheorghe Alecu", "Pavel Ciprian"},
             {"1820", "1919", "1850", "1929"},
             {"De-as avea", "La mormântul lui Aron Pumnul", "Craiasa din povesti", "Somnoroase pasarele"}};
-    String[] raspunsuriCorecte = {"A", "A", "A"};
+    String[] raspunsuriCorecte = {"AB", "A", "A"};
     String[] feedback = {" In majoritatea operelor cu tema asemanatoare, chemarea la iubire este realizata de catre eul liric, care aspira ca ființa iubita sa vina In lumea lui.",
             " A doua intervenție a vocii eului poetic continua meditația din cea de-a doua secvența poetica asupra iubirii trecute, rememorate, pe care indragostitul o proiecteaza ca fiind ideala.",
             " Contrastul dintre vis si realitate, ca incompatibilitate a celor doua lumi, este sugerat de versul final Totusi este trist In lume!"};
@@ -52,8 +56,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Button buttonInapoiDinEseu = new Button("Inapoi");
     Button buttonRefaTestul = new Button("Reia testul");
     Button buttonEmedi = new Button("Cumpara varianta oficiala Emedi");
-    Button romana=new Button("Limba romana");
-    Button istorie = new Button("Istoria Romaniei");
+    Button buttonRomana =new Button("Limba romana");
+    Button buttonIstorie = new Button("Istoria Romaniei");
 
     int index;
     int nrRaspunsuriCorecte;
@@ -89,7 +93,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Text rezultat = new Text("Punctaj: ");
     Text questionText = new Text();
     Label bunVenit=new Label("Bine ai venit pe platforma Emedi");
-    Label lbRomana = new Label("Teste limba romana");
+    Label materie = new Label("Teste limba romana");
     Text rezultatTest = new Text();
     Label rezultatText = new Label();
     Text titluEseu = new Text("Titlu eseu");
@@ -126,7 +130,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rezultatText.setTextAlignment(TextAlignment.CENTER);
         rezultat.setTextAlignment(TextAlignment.CENTER);
         titluEseu.setTextAlignment(TextAlignment.CENTER);
-        lbRomana.setFont(Font.font("arial", FontWeight.NORMAL, FontPosture.REGULAR, 40));
+        materie.setFont(Font.font("arial", FontWeight.NORMAL, FontPosture.REGULAR, 40));
         rezultatText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         titluEseu.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         titluIntrebariGresite.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
@@ -156,13 +160,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         //
         hBoxInceput1 = new HBox(30);
         hBoxInceput1.setPadding(new Insets(50, 50, 50, 50));
-        romana.setAlignment(Pos.CENTER);
-        istorie.setAlignment(Pos.CENTER);
-        hBoxInceput1.getChildren().addAll(romana, istorie);
+        buttonRomana.setAlignment(Pos.CENTER);
+        buttonIstorie.setAlignment(Pos.CENTER);
+        hBoxInceput1.getChildren().addAll(buttonRomana, buttonIstorie);
         hBoxInceput1.setAlignment(Pos.CENTER);
 
         VBox vBoxInceput1 = new VBox(50);
-        vBoxInceput1.setPadding(new Insets(100, 100, 100, 100));
+        vBoxInceput1.setPadding(new Insets(width/3, 10, width/3, 10));
         bunVenit.setAlignment(Pos.CENTER);
         vBoxInceput1.getChildren().addAll(bunVenit, hBoxInceput1);
         vBoxInceput1.setAlignment(Pos.CENTER);
@@ -171,18 +175,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         panePrimaPaginaSelectie.setPadding(new Insets(75, 75, 75, 75));
         panePrimaPaginaSelectie.getChildren().addAll(vBoxInceput1);
 
-        Scene sceneSelectie = new Scene(panePrimaPaginaSelectie);
-        //
+        Scene sceneSelectie = new Scene(panePrimaPaginaSelectie, width, height);
 
+        //
         vBoxInceput = new VBox(50);
         vBoxInceput.setPadding(new Insets(15, 12, 15, 12));
-        vBoxInceput.getChildren().addAll(lbRomana, buttonIncepeTestul);
+        vBoxInceput.getChildren().addAll(materie, buttonIncepeTestul);
         vBoxInceput.setAlignment(Pos.CENTER);
 
         StackPane stackPanePrimaPagina = new StackPane();
         stackPanePrimaPagina.setPadding(new Insets(175, 175, 175, 175));
         stackPanePrimaPagina.getChildren().addAll(vBoxInceput);
-        Scene sceneInitial = new Scene(stackPanePrimaPagina);
+        Scene sceneInitial = new Scene(stackPanePrimaPagina, width, height);
 
         //ok
         vBoxIntrebari = new VBox();
@@ -193,8 +197,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle1.setFill(Color.TRANSPARENT);
         rectangle1.setStroke(Color.BLACK);
         rectangle1.setStrokeWidth(2);
-        rectangle1.setWidth(width - margine);
+        rectangle1.setWidth(width);
         rectangle1.setHeight(50);
+
 
         StackPane stackPaneIntrebari = new StackPane();
         stackPaneIntrebari.setPadding(new Insets(10, 10, 10, 10));
@@ -217,7 +222,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         borderPanePaginaIntrebari.setMaxWidth(width);
         borderPanePaginaIntrebari.setMaxHeight(height);
 
-        Scene sceneIntrebari = new Scene(borderPanePaginaIntrebari);
+        Scene sceneIntrebari = new Scene(borderPanePaginaIntrebari, width, height);
 
 
         //
@@ -229,7 +234,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle2.setFill(Color.TRANSPARENT);
         rectangle2.setStroke(Color.MEDIUMPURPLE);
         rectangle2.setStrokeWidth(2);
-        rectangle2.setWidth(width - margine);
+        rectangle2.setWidth(width);
         vBoxFeedback = new VBox(10);
         vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
         feedbackText.prefWidthProperty().bind(rectangle2.widthProperty().subtract(10));
@@ -256,7 +261,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Pane paneFeedback = new Pane();
         paneFeedback.getChildren().add(vBoxFeedbackTotal);
 
-        Scene sceneFeedback = new Scene(paneFeedback);
+        Scene sceneFeedback = new Scene(paneFeedback, width, height);
 
         //
         hBoxButoaneRezultate = new HBox(15);
@@ -276,7 +281,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Pane paneRezultate = new Pane();
         paneRezultate.getChildren().add(vBoxRezultat);
 
-        Scene sceneRezultate = new Scene(paneRezultate);
+        Scene sceneRezultate = new Scene(paneRezultate, width, height);
         //intrebariGresiteText.setWrappingWidth(sceneRezultate.getWidth() - 50);
 
         //
@@ -292,7 +297,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneIntrebariGresite = new Scene(scrollPaneIntrebariGresite, width, height);
 
 
-
         //
         vBoxEseu = new VBox(15);
         vBoxEseu.setPadding(new Insets(15, 12, 15, 12));
@@ -304,8 +308,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         scrollPaneEseu.setContent(vBoxEseu);
         Scene sceneEseu = new Scene(scrollPaneEseu, width, height);
         textEseu.setWrappingWidth(sceneEseu.getWidth() - 50);
-        //
 
+        //
         sceneSelectie.getStylesheets().add("emedi/css/firstpage.css");
         sceneInitial.getStylesheets().add("emedi/css/firstpage.css");
         sceneInitial.getStylesheets().add("emedi/css/buttons.css");
@@ -330,15 +334,20 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         primaryStage.setScene(sceneSelectie);
 
-        romana.setOnAction(actionEvent -> {
+        buttonRomana.setOnAction(actionEvent -> {
             primaryStage.setScene(sceneInitial);
+        });
+
+        buttonIstorie.setOnAction(actionEvent -> {
+            materie.setText("Test la istorie");
+            primaryStage.setScene(sceneInitial);
+
         });
 
 
         buttonIncepeTestul.setOnAction(actionEvent -> {
             nextQuestion();
             primaryStage.setScene(sceneIntrebari);
-
         });
 
         buttonVerificaRaspuns.setOnAction(actionEvent -> {
