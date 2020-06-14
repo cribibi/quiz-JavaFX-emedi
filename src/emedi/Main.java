@@ -573,6 +573,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             index = 0;
             nrRaspunsuriCorecte = 0;
             buttonUrmatoareaIntrebare.setText("Urmatoarea intrebare");
+            buttonEseuIstorie.setVisible(true);
+            buttonEseu1.setVisible(true);
+            buttonEseu2.setVisible(true);
+            buttonEseu3.setVisible(true);
             listaIntrebari.clear();
             listaVar1.clear();
             listaVar2.clear();
@@ -695,9 +699,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         int theCharNum = reader.read();
         while(theCharNum != -1) {
             char theChar = (char) theCharNum;
-
             stringBuilderTextEseu.append(theChar);
-
             theCharNum = reader.read();
         }
     }
