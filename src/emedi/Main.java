@@ -129,12 +129,16 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         primaryStage.setTitle("Platforma de testare Emedi");
         checkBoxA = new CheckBox();
         checkBoxA.setIndeterminate(false);
+        checkBoxA.setWrapText(true);
         checkBoxB = new CheckBox();
         checkBoxB.setIndeterminate(false);
+        checkBoxB.setWrapText(true);
         checkBoxC = new CheckBox();
         checkBoxC.setIndeterminate(false);
+        checkBoxC.setWrapText(true);
         checkBoxD = new CheckBox();
         checkBoxD.setIndeterminate(false);
+        checkBoxD.setWrapText(true);
 
         Hyperlink hyperlink = new Hyperlink("Go to emedi home page");
         buttonEmedi.setOnAction(actionEvent -> {
@@ -600,6 +604,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             questionNrField.setText("Intrebarea numarul " + (index + 1) + " din " + nrIntrebari + ":");
             questionText.setText(listaIntrebari.get(index));
             checkBoxA.setText(listaVar1.get(index));
+
             checkBoxA.setSelected(false);
             checkBoxB.setText(listaVar2.get(index));
             checkBoxB.setSelected(false);
