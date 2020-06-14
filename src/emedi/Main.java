@@ -13,62 +13,77 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
     final static String url = "https://www.emedi.ro/";
 
-    String[] intrebariArray = {" Care sunt cele doua teme ale poemului?",
-            " Ce forma Imbraca adverbul iar, din din incipit?",
-            " Discursul fetei din prima secvența este o interogație retorica, dar si o enumeratie marcata de repetarea lui…"};
+    static String fileNameEseuRomana1 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana1.txt";
+    static String fileNameEseuRomana2 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana2.txt";
+    static String fileNameEseuRomana3 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana3.txt";
+    static String fileNameEseuIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuIstorie.txt";
 
-    String[] intrebariArrayIstorie = {" Care ",
-            " Ce ?",
-            " De marcata de repetarea lui…"};
+    static String fileNameIntrebariRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/intrebariRomana.txt";
+    static String fileNameVar1Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var1Romana.txt";
+    static String fileNameVar2Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var2Romana.txt";
+    static String fileNameVar3Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var3Romana.txt";
+    static String fileNameVar4Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var4Romana.txt";
+    static String fileNameRaspunsCorectRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/raspunsRomana.txt";
+    static String fileNameFeedbackRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/feedbackRomana.txt";
 
-    String[][] varianteDeRaspuns = {{"Ion Popescu", "Mihail Eminovici", "Gheorghe Alecu", "Pavel Ciprian"},
-            {"1820", "1919", "1850", "1929"},
-            {"De-as avea", "La mormântul lui Aron Pumnul", "Craiasa din povesti", "Somnoroase pasarele"}};
-    String[] raspunsuriCorecte = {"AB", "A", "A"};
-    String[] feedback = {" In majoritatea operelor cu tema asemanatoare, chemarea la iubire este realizata de catre eul liric, care aspira ca ființa iubita sa vina In lumea lui.",
-            " A doua intervenție a vocii eului poetic continua meditația din cea de-a doua secvența poetica asupra iubirii trecute, rememorate, pe care indragostitul o proiecteaza ca fiind ideala.",
-            " Contrastul dintre vis si realitate, ca incompatibilitate a celor doua lumi, este sugerat de versul final Totusi este trist In lume!"};
+    static String fileNameIntrebariIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/intrebariIstorie.txt";
+    static String fileNameVar1Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var1Istorie.txt";
+    static String fileNameVar2Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var2Istorie.txt";
+    static String fileNameVar3Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var3Istorie.txt";
+    static String fileNameVar4IStorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var4Istorie.txt";
+    static String fileNameRaspunsCorectIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/raspunsIstorie.txt";
+    static String fileNameFeedbackIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/feedbackIstorie.txt";
 
-    String[] texteEseu = {"text eseu 1", "text eseu2", "text eseu 3"};
-    String[] titluriEseu = {"Titlu eseu 1", "Titlu eseu 2", "Titlu eseu 3"};
-
-    Text textEseu = new Text();
+    static ArrayList<String> listaIntrebari = new ArrayList<>();
+    static ArrayList<String> listaVar1 = new ArrayList<>();
+    static ArrayList<String> listaVar2 = new ArrayList<>();
+    static ArrayList<String> listaVar3 = new ArrayList<>();
+    static ArrayList<String> listaVar4 = new ArrayList<>();
+    static ArrayList<String> listaRaspunsuriCorecte = new ArrayList<>();
+    static ArrayList<String> listaFeedback = new ArrayList<>();
     List<String> intrebariGresiteArrayList = new ArrayList<>();
 
     CheckBox checkBoxA, checkBoxB, checkBoxC, checkBoxD;
-
     Button buttonIncepeTestul = new Button("Start test");
     Button buttonVerificaRaspuns = new Button("Trimite raspunsul");
     Button buttonUrmatoareaIntrebare = new Button("Urmatoarea intrebare");
     Button buttonEseu1 = new Button("Eseu 1");
     Button buttonEseu2 = new Button("Eseu 2");
     Button buttonEseu3 = new Button("Eseu 3");
+    Button buttonEseuIstorie = new Button("Eseu");
     Button buttonIntrebariGresite = new Button("Verifica intrebari gresite");
     Button buttonInapoiDinIntrebariGresite = new Button("Inapoi");
     Button buttonInapoiDinEseu = new Button("Inapoi");
     Button buttonRefaTestul = new Button("Reia testul");
     Button buttonEmedi = new Button("Cumpara varianta oficiala Emedi");
-    Button buttonRomana =new Button("Limba romana");
+    Button buttonRomana = new Button("Limba romana");
     Button buttonIstorie = new Button("Istoria Romaniei");
+    Button buttonBackToStart = new Button("Pagina initiala");
 
     int index;
     int nrRaspunsuriCorecte;
-    int nrIntrebari = intrebariArray.length;
+    static int nrIntrebari;
     int result;
-    int width = 800;
-    int margine = 40;
-    int height = 600;
+    int width = 1000;
+    int margine = 100;
+    int height = 700;
     StringBuilder guess;
     StringBuilder helperFeedbackFinal = new StringBuilder("");
     String feedbackFinal;
+
+    Text textEseu = new Text("text initial pentru eseu");
+    StringBuilder stringBuilderTextEseu = new StringBuilder();
+    String[] titluriEseu = {"Tema si viziunea despre lume", "Titlu eseu 2", "Titlu eseu 3"};
 
     VBox vBoxInceput;
 
@@ -81,7 +96,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     VBox vBoxIntrebareVarianteButoaneRaspuns;
 
     VBox vBoxRezultate;
-    HBox hBoxButoaneRezultate;
+    VBox vBoxButoaneRezultate;
 
     VBox vBoxFeedback;
     Rectangle rectangle2 = new Rectangle();
@@ -92,7 +107,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Label questionNrField = new Label();
     Text rezultat = new Text("Punctaj: ");
     Text questionText = new Text();
-    Label bunVenit=new Label("Bine ai venit pe platforma Emedi");
+    Label bunVenit = new Label("Bine ai venit pe platforma Emedi!");
     Label materie = new Label("Teste limba romana");
     Text rezultatTest = new Text();
     Label rezultatText = new Label();
@@ -121,7 +136,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxD = new CheckBox();
         checkBoxD.setIndeterminate(false);
 
-        Hyperlink hyperlink = new Hyperlink("Go to Eclipse home page");
+        Hyperlink hyperlink = new Hyperlink("Go to emedi home page");
         buttonEmedi.setOnAction(actionEvent -> {
             getHostServices().showDocument(url);
         });
@@ -158,21 +173,27 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             buttonVerificaRaspuns.setDisable(false);
         });
         //
-        hBoxInceput1 = new HBox(30);
-        hBoxInceput1.setPadding(new Insets(50, 50, 50, 50));
+        hBoxInceput1 = new HBox(50);
+        hBoxInceput1.setPadding(new Insets(10, 12, 10, 12));
         buttonRomana.setAlignment(Pos.CENTER);
         buttonIstorie.setAlignment(Pos.CENTER);
         hBoxInceput1.getChildren().addAll(buttonRomana, buttonIstorie);
         hBoxInceput1.setAlignment(Pos.CENTER);
 
         VBox vBoxInceput1 = new VBox(50);
-        vBoxInceput1.setPadding(new Insets(width/3, 10, width/3, 10));
+        vBoxInceput1.setPadding(new Insets(12, 10, 12, 10));
         bunVenit.setAlignment(Pos.CENTER);
         vBoxInceput1.getChildren().addAll(bunVenit, hBoxInceput1);
         vBoxInceput1.setAlignment(Pos.CENTER);
+        vBoxInceput1.setPrefWidth(width);
+        vBoxInceput1.setPrefWidth(height);
+        bunVenit.setWrapText(false);
+        bunVenit.setFont(Font.font("arial", FontWeight.NORMAL, FontPosture.REGULAR, 40));
+        vBoxInceput1.setLayoutX(width / 6);
+        vBoxInceput1.setLayoutY(height / 3);
 
         Pane panePrimaPaginaSelectie = new Pane();
-        panePrimaPaginaSelectie.setPadding(new Insets(75, 75, 75, 75));
+        panePrimaPaginaSelectie.setPadding(new Insets(12, 10, 12, 10));
         panePrimaPaginaSelectie.getChildren().addAll(vBoxInceput1);
 
         Scene sceneSelectie = new Scene(panePrimaPaginaSelectie, width, height);
@@ -197,7 +218,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle1.setFill(Color.TRANSPARENT);
         rectangle1.setStroke(Color.BLACK);
         rectangle1.setStrokeWidth(2);
-        rectangle1.setWidth(width);
+        rectangle1.setWidth(width - 100);
         rectangle1.setHeight(50);
 
 
@@ -207,7 +228,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         vBoxIntrebareSiVariante = new VBox(10);
         vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 52));
-        questionText.setWrappingWidth(rectangle1.getWidth()-10);
+        questionText.setWrappingWidth(rectangle1.getWidth() - 10);
         vBoxIntrebareSiVariante.getChildren().addAll(questionText, checkBoxA, checkBoxB, checkBoxC, checkBoxD);
         vBoxIntrebareSiVariante.setAlignment(Pos.CENTER_LEFT);
 
@@ -234,7 +255,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle2.setFill(Color.TRANSPARENT);
         rectangle2.setStroke(Color.MEDIUMPURPLE);
         rectangle2.setStrokeWidth(2);
-        rectangle2.setWidth(width);
+        rectangle2.setWidth(width - 100);
+        rectangle2.setLayoutX(width / 2 - (width - 100) / 2);
+
         vBoxFeedback = new VBox(10);
         vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
         feedbackText.prefWidthProperty().bind(rectangle2.widthProperty().subtract(10));
@@ -242,13 +265,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         feedbackText.setAlignment(Pos.CENTER);
         vBoxFeedback.getChildren().add(feedbackText);
         vBoxFeedback.setAlignment(Pos.CENTER_LEFT);
-
         rectangle2.heightProperty().bind(feedbackText.heightProperty().add(30));
         rectangle2.setArcHeight(40);
         rectangle2.setArcWidth(40);
 
         stackPaneFeedback.setPadding(new Insets(10, 10, 10, 10));
         stackPaneFeedback.getChildren().addAll(rectangle2, vBoxFeedback);
+        stackPaneFeedback.setAlignment(Pos.CENTER);
 
         HBox hBoxButUrmIntreb = new HBox();
         hBoxButUrmIntreb.setPadding(new Insets(15, 12, 40, 12));
@@ -264,25 +287,25 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneFeedback = new Scene(paneFeedback, width, height);
 
         //
-        hBoxButoaneRezultate = new HBox(15);
-        hBoxButoaneRezultate.setPadding(new Insets(15, 12, 50, 12));
-        hBoxButoaneRezultate.setAlignment(Pos.BOTTOM_CENTER);
-        hBoxButoaneRezultate.getChildren().addAll(buttonIntrebariGresite, buttonEseu1, buttonEseu2, buttonEseu3, buttonRefaTestul, buttonEmedi);
+        vBoxButoaneRezultate = new VBox(15);
+        vBoxButoaneRezultate.setPadding(new Insets(15, 12, 50, 12));
+        vBoxButoaneRezultate.setAlignment(Pos.CENTER);
+        vBoxButoaneRezultate.getChildren().addAll(buttonEmedi, buttonIntrebariGresite, buttonRefaTestul, buttonBackToStart, buttonEseu1, buttonEseu2, buttonEseu3, buttonEseuIstorie);
 
         vBoxRezultate = new VBox(50);
         vBoxRezultate.setPadding(new Insets(50, 25, 25, 22));
-        vBoxRezultate.getChildren().addAll(rezultatText, hBoxButoaneRezultate);
+        vBoxRezultate.getChildren().addAll(rezultatText, vBoxButoaneRezultate);
         vBoxRezultate.setAlignment(Pos.CENTER);
 
         VBox vBoxRezultat = new VBox(30);
-        vBoxRezultate.setAlignment(Pos.CENTER);
-        vBoxRezultat.getChildren().addAll(vBoxRezultate, hBoxButoaneRezultate);
+        vBoxRezultat.setAlignment(Pos.CENTER);
+        vBoxRezultat.setPrefSize(width, height);
+        vBoxRezultat.getChildren().addAll(vBoxRezultate, vBoxButoaneRezultate);
 
         Pane paneRezultate = new Pane();
         paneRezultate.getChildren().add(vBoxRezultat);
 
         Scene sceneRezultate = new Scene(paneRezultate, width, height);
-        //intrebariGresiteText.setWrappingWidth(sceneRezultate.getWidth() - 50);
 
         //
         vBoxIntrebariGresite = new VBox(10);
@@ -335,14 +358,99 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         primaryStage.setScene(sceneSelectie);
 
         buttonRomana.setOnAction(actionEvent -> {
+            materie.setText("Test la limba romana");
+
+            try {
+                readFiles(fileNameIntrebariRomana, listaIntrebari);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            nrIntrebari = listaIntrebari.size();
+
+            try {
+                readFiles(fileNameVar1Romana, listaVar1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar2Romana, listaVar2);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar3Romana, listaVar3);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar4Romana, listaVar4);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameRaspunsCorectRomana, listaRaspunsuriCorecte);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameFeedbackRomana, listaFeedback);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            //buttonEseuIstorie.setVisible(false);
+
             primaryStage.setScene(sceneInitial);
         });
 
         buttonIstorie.setOnAction(actionEvent -> {
             materie.setText("Test la istorie");
+
+            try {
+                readFiles(fileNameIntrebariIstorie, listaIntrebari);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            nrIntrebari = listaIntrebari.size();
+
+            try {
+                readFiles(fileNameVar1Istorie, listaVar1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar2Istorie, listaVar2);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar3Istorie, listaVar3);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameVar4IStorie, listaVar4);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameRaspunsCorectIstorie, listaRaspunsuriCorecte);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                readFiles(fileNameFeedbackIstorie, listaFeedback);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            buttonEseu3.setVisible(false);
+            buttonEseu2.setVisible(false);
+            buttonEseu1.setVisible(false);
             primaryStage.setScene(sceneInitial);
 
         });
+
 
 
         buttonIncepeTestul.setOnAction(actionEvent -> {
@@ -364,7 +472,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             if (checkBoxD.isSelected()) {
                 guess.append("D");
             }
-            if (guess.toString().equals(raspunsuriCorecte[index])) {
+            if (guess.toString().equals(listaRaspunsuriCorecte.get(index))) {
                 nrRaspunsuriCorecte++;
             }
 
@@ -385,11 +493,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             checkBoxB.setDisable(false);
             checkBoxC.setDisable(false);
             checkBoxD.setDisable(false);
-            if (index == intrebariArray.length - 1) {
+            if (index == listaIntrebari.size() - 1) {
                 buttonUrmatoareaIntrebare.setText("Vezi rezultate");
             }
 
-            if (index >= intrebariArray.length) {
+            if (index >= listaIntrebari.size()) {
                 results();
                 primaryStage.setScene(sceneRezultate);
             } else {
@@ -398,19 +506,46 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             }
         });
 
+        buttonEseuIstorie.setOnAction(actionEvent -> {
+            try {
+                readEssay(fileNameEseuIstorie, stringBuilderTextEseu);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            titluEseu.setText("eseu istorie");
+            textEseu.setText(stringBuilderTextEseu.toString());
+            primaryStage.setScene(sceneEseu);
+
+        });
+
         buttonEseu1.setOnAction(actionEvent -> {
+            try {
+                readEssay(fileNameEseuRomana1, stringBuilderTextEseu);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             titluEseu.setText(titluriEseu[0]);
-            textEseu.setText(texteEseu[0]);
+            textEseu.setText(stringBuilderTextEseu.toString());
             primaryStage.setScene(sceneEseu);
         });
+
         buttonEseu2.setOnAction(actionEvent -> {
+            try {
+                readEssay(fileNameEseuRomana2, stringBuilderTextEseu);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             titluEseu.setText(titluriEseu[1]);
-            textEseu.setText(texteEseu[1]);
             primaryStage.setScene(sceneEseu);
         });
+
         buttonEseu3.setOnAction(actionEvent -> {
+            try {
+                readEssay(fileNameEseuRomana3, stringBuilderTextEseu);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             titluEseu.setText(titluriEseu[2]);
-            textEseu.setText(texteEseu[2]);
             primaryStage.setScene(sceneEseu);
         });
 
@@ -426,10 +561,26 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         });
 
         buttonRefaTestul.setOnAction(actionEvent -> {
+            helperFeedbackFinal.delete(0, helperFeedbackFinal.length());
             index = 0;
             nrRaspunsuriCorecte = 0;
             buttonUrmatoareaIntrebare.setText("Urmatoarea intrebare");
             primaryStage.setScene(sceneInitial);
+        });
+
+        buttonBackToStart.setOnAction(actionEvent -> {
+            helperFeedbackFinal.delete(0, helperFeedbackFinal.length());
+            index = 0;
+            nrRaspunsuriCorecte = 0;
+            buttonUrmatoareaIntrebare.setText("Urmatoarea intrebare");
+            listaIntrebari.clear();
+            listaVar1.clear();
+            listaVar2.clear();
+            listaVar3.clear();
+            listaVar4.clear();
+            listaRaspunsuriCorecte.clear();
+            listaFeedback.clear();
+            primaryStage.setScene(sceneSelectie);
         });
 
         primaryStage.setResizable(true);
@@ -439,35 +590,34 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 
     public void nextQuestion() {
-
         if (index >= nrIntrebari) {
             results();
         } else {
             questionNrField.setText("Intrebarea numarul " + (index + 1) + " din " + nrIntrebari + ":");
-            questionText.setText(intrebariArray[index]);
-            checkBoxA.setText(varianteDeRaspuns[index][0]);
+            questionText.setText(listaIntrebari.get(index));
+            checkBoxA.setText(listaVar1.get(index));
             checkBoxA.setSelected(false);
-            checkBoxB.setText(varianteDeRaspuns[index][1]);
+            checkBoxB.setText(listaVar2.get(index));
             checkBoxB.setSelected(false);
-            checkBoxC.setText(varianteDeRaspuns[index][2]);
+            checkBoxC.setText(listaVar3.get(index));
             checkBoxC.setSelected(false);
-            checkBoxD.setText(varianteDeRaspuns[index][3]);
+            checkBoxD.setText(listaVar4.get(index));
             checkBoxD.setSelected(false);
         }
     }
 
     public void displayAnswer() {
-        if (guess.toString().equals(raspunsuriCorecte[index])) {
+        if (guess.toString().equals(listaRaspunsuriCorecte.get(index))) {
             raspunsCorectGresit.setText("Răspuns corect!");
             feedbackText.setText("Felicitari!");
         } else {
             raspunsCorectGresit.setText("Raspuns gresit :( :( :(");
-            feedbackText.setText(feedback[index]);
-            helperFeedbackFinal.append("• "+intrebariArray[index] + "\n" +
-                    "A. " + varianteDeRaspuns[index][0] + "\n" +
-                    "B. " + varianteDeRaspuns[index][1] + "\n" +
-                    "C. " + varianteDeRaspuns[index][2] + "\n" +
-                    "D. " + varianteDeRaspuns[index][3] + "\n" + "\n");
+            feedbackText.setText(listaFeedback.get(index));
+            helperFeedbackFinal.append("• " + listaIntrebari.get(index) + "\n" +
+                    "A. " + listaVar1.get(index) + "\n" +
+                    "B. " + listaVar2.get(index) + "\n" +
+                    "C. " + listaVar3.get(index) + "\n" +
+                    "D. " + listaVar4.get(index) + "\n" + "\n");
         }
     }
 
@@ -503,4 +653,52 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     }
 
+    public static void readQuestions(String fileName, ArrayList<String> intrebare, ArrayList<String> var1,
+                                     ArrayList<String> var2, ArrayList<String> var3, ArrayList<String> var4,
+                                     ArrayList<String> raspuns, ArrayList<String> indicatii)
+            throws FileNotFoundException {
+        Scanner input = new Scanner(new File(fileName));
+        while (input.hasNext()) {
+            String line = input.nextLine();
+            String[] fields = line.split(";");
+            String i = fields[0];
+            String v1 = fields[1];
+            String v2 = fields[2];
+            String v3 = fields[3];
+            String v4 = fields[4];
+            String r = fields[5];
+            String c = fields[6];
+            intrebare.add(i);
+            var1.add(v1);
+            var2.add(v2);
+            var3.add(v3);
+            var4.add(v4);
+            raspuns.add(r);
+            indicatii.add(c);
+        }
+        nrIntrebari = intrebare.size();
+    }
+
+    public static void readFiles(String fileName, ArrayList<String> list)
+            throws FileNotFoundException {
+        Scanner input = new Scanner(new File(fileName));
+        while (input.hasNext()) {
+            String line = input.nextLine();
+            list.add(line);
+        }
+    }
+
+    public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
+        //BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), Charset.forName("UTF-8"));
+        BufferedReader reader
+                = new BufferedReader(new FileReader(fileName));
+        int theCharNum = reader.read();
+        while(theCharNum != -1) {
+            char theChar = (char) theCharNum;
+
+            stringBuilderTextEseu.append(theChar);
+
+            theCharNum = reader.read();
+        }
+    }
 }
