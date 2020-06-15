@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -82,7 +83,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     StringBuilder helperFeedbackFinal = new StringBuilder("");
     String feedbackFinal;
 
-    Text textEseu = new Text("text initial pentru eseu");
+    Text textEseu = new Text();
     StringBuilder stringBuilderTextEseu = new StringBuilder();
     String[] titluriEseu = {"Tema si viziunea despre lume", "Titlu eseu 2", "Titlu eseu 3"};
 
@@ -143,12 +144,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxD.setWrapText(true);
 
         feedbackText.setWrapText(true);
-
-        Hyperlink hyperlink = new Hyperlink("Go to emedi home page");
-        buttonEmedi.setOnAction(actionEvent -> {
-            getHostServices().showDocument(url);
-        });
-
         intrebariGresiteText.setText(intrebariGresiteArrayList.toString());
         rezultatText.setTextAlignment(TextAlignment.CENTER);
         rezultat.setTextAlignment(TextAlignment.CENTER);
@@ -161,25 +156,25 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         questionText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         feedbackText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         raspunsCorectGresit.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 15));
-
         buttonIntrebariGresite.setDisable(true);
-        buttonVerificaRaspuns.setDisable(true);
 
-        checkBoxA.setOnAction(actionEvent -> {
-            buttonVerificaRaspuns.setDisable(false);
-        });
+        //buttonVerificaRaspuns.setDisable(true);
 
-        checkBoxB.setOnAction(actionEvent -> {
-            buttonVerificaRaspuns.setDisable(false);
-        });
-
-        checkBoxC.setOnAction(actionEvent -> {
-            buttonVerificaRaspuns.setDisable(false);
-        });
-
-        checkBoxD.setOnAction(actionEvent -> {
-            buttonVerificaRaspuns.setDisable(false);
-        });
+//        checkBoxA.setOnAction(actionEvent -> {
+//            buttonVerificaRaspuns.setDisable(false);
+//        });
+//
+//        checkBoxB.setOnAction(actionEvent -> {
+//            buttonVerificaRaspuns.setDisable(false);
+//        });
+//
+//        checkBoxC.setOnAction(actionEvent -> {
+//            buttonVerificaRaspuns.setDisable(false);
+//        });
+//
+//        checkBoxD.setOnAction(actionEvent -> {
+//            buttonVerificaRaspuns.setDisable(false);
+//        });
 
         //scena initiala
         hBoxInceput1 = new HBox(50);
@@ -198,12 +193,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         vBoxInceput1.setPrefWidth(height);
         bunVenit.setWrapText(false);
         bunVenit.setFont(Font.font("arial", FontWeight.NORMAL, FontPosture.REGULAR, 40));
-//        vBoxInceput1.setLayoutX(width / 6);
-//        vBoxInceput1.setLayoutY(height / 3);
-
-//        Pane panePrimaPaginaSelectie = new Pane();
-//        panePrimaPaginaSelectie.setPadding(new Insets(12, 10, 12, 10));
-//        panePrimaPaginaSelectie.getChildren().addAll(vBoxInceput1);
 
         Scene sceneSelectie = new Scene(vBoxInceput1, width, height);
 
@@ -213,9 +202,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         vBoxInceput.getChildren().addAll(materie, buttonIncepeTestul);
         vBoxInceput.setAlignment(Pos.CENTER);
 
-//        StackPane stackPanePrimaPagina = new StackPane();
-//        stackPanePrimaPagina.setPadding(new Insets(175, 175, 175, 175));
-//        stackPanePrimaPagina.getChildren().addAll(vBoxInceput);
         Scene sceneInitial = new Scene(vBoxInceput, width, height);
 
         //Scena intrebarilor
@@ -224,8 +210,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         vBoxIntrebari.getChildren().addAll(questionNrField);
         vBoxIntrebari.setAlignment(Pos.CENTER);
         vBoxIntrebari.getStylesheets().add("emedi/css/vBoxIntrebari.css");
+
         Image image = new Image(new FileInputStream("/Users/biancacricler/Documents/cosmin/src/emedi/resources/simplebanner.jpg"));
         ImagePattern imagePattern = new ImagePattern(image);
+
         rectangle1.setFill(imagePattern);
         rectangle1.setStroke(Color.BLACK);
         rectangle1.setStrokeWidth(2);
@@ -238,14 +226,35 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         stackPaneIntrebari.setPadding(new Insets(60, 10, 10, 10));
         stackPaneIntrebari.getChildren().addAll(rectangle1, vBoxIntrebari);
 
-        vBoxIntrebareSiVariante = new VBox(10);
-        vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 52));
+        VBox vBoxVariante=new VBox(10);
+        vBoxVariante.getChildren().addAll(checkBoxA, checkBoxB, checkBoxC, checkBoxD);
+        checkBoxA.setWrapText(true);
+        checkBoxB.setWrapText(true);
+        checkBoxC.setWrapText(true);
+        checkBoxD.setWrapText(true);
+        checkBoxA.wrapTextProperty();
+        checkBoxB.wrapTextProperty();
+        checkBoxC.wrapTextProperty();
+        checkBoxD.wrapTextProperty();
+        checkBoxA.setMaxWidth(width/1.5);
+        checkBoxB.setMaxWidth(width/1.5);
+        checkBoxC.setMaxWidth(width/1.5);
+        checkBoxD.setMaxWidth(width/1.5);
+
+
+        Group groupVariante = new Group();
+        groupVariante.getChildren().add(vBoxVariante);
+        vBoxVariante.setAlignment(Pos.CENTER_LEFT);
+
+        vBoxIntrebareSiVariante = new VBox(20);
+        vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 12));
         questionText.setWrappingWidth(width-100);
-        vBoxIntrebareSiVariante.getChildren().addAll(questionText, checkBoxA, checkBoxB, checkBoxC, checkBoxD);
-        vBoxIntrebareSiVariante.setAlignment(Pos.CENTER_LEFT);
+        questionText.setTextAlignment(TextAlignment.JUSTIFY);
+        vBoxIntrebareSiVariante.getChildren().addAll(questionText, groupVariante);
+        vBoxIntrebareSiVariante.setAlignment(Pos.CENTER);
 
         hBoxButonVerificare = new HBox(10);
-        hBoxButonVerificare.setPadding(new Insets(15, 100, 100, 12));
+        hBoxButonVerificare.setPadding(new Insets(15, 25, 25, 12));
         hBoxButonVerificare.setAlignment(Pos.BOTTOM_RIGHT);
         hBoxButonVerificare.getChildren().add(buttonVerificaRaspuns);
 
@@ -278,7 +287,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         feedbackText.setAlignment(Pos.CENTER);
 
         vBoxFeedback = new VBox();
-        vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
+        vBoxFeedback.setPadding(new Insets(15, 50, 15, 50));
         vBoxFeedback.getChildren().add(feedbackText);
         vBoxFeedback.setAlignment(Pos.CENTER);
 
@@ -294,10 +303,16 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneFeedback = new Scene(vBoxFeedbackTotal, width, height);
 
         //scena rezultate
+
+        HBox hBoxButoaneEseuRomana = new HBox(10);
+        hBoxButoaneEseuRomana.setPadding(new Insets(15, 12, 15, 12));
+        hBoxButoaneEseuRomana.setAlignment(Pos.CENTER);
+        hBoxButoaneEseuRomana.getChildren().addAll(buttonEseu1, buttonEseu2, buttonEseu3);
+
         vBoxButoaneRezultate = new VBox(15);
-        vBoxButoaneRezultate.setPadding(new Insets(15, 12, 50, 12));
+        vBoxButoaneRezultate.setPadding(new Insets(15, 12, 15, 12));
         vBoxButoaneRezultate.setAlignment(Pos.CENTER);
-        vBoxButoaneRezultate.getChildren().addAll(buttonEmedi, buttonIntrebariGresite, buttonRefaTestul, buttonBackToStart, buttonEseu1, buttonEseu2, buttonEseu3, buttonEseuIstorie);
+        vBoxButoaneRezultate.getChildren().addAll(buttonEmedi, buttonIntrebariGresite, buttonRefaTestul, buttonBackToStart, hBoxButoaneEseuRomana, buttonEseuIstorie);
 
         vBoxRezultate = new VBox(50);
         vBoxRezultate.setPadding(new Insets(50, 25, 25, 22));
@@ -462,8 +477,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         });
 
-
-
         buttonIncepeTestul.setOnAction(actionEvent -> {
             nextQuestion();
             primaryStage.setScene(sceneIntrebari);
@@ -491,7 +504,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             checkBoxB.setDisable(true);
             checkBoxC.setDisable(true);
             checkBoxD.setDisable(true);
-            buttonVerificaRaspuns.setDisable(true);
+            //buttonVerificaRaspuns.setDisable(true);
             buttonUrmatoareaIntrebare.setDisable(false);
             primaryStage.setScene(sceneFeedback);
             displayAnswer();
@@ -515,6 +528,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 primaryStage.setScene(sceneIntrebari);
                 nextQuestion();
             }
+        });
+
+        buttonEmedi.setOnAction(actionEvent -> {
+            getHostServices().showDocument(url);
         });
         buttonVerificaRaspuns.setDefaultButton(true);
         buttonUrmatoareaIntrebare.setDefaultButton(true);
@@ -572,6 +589,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 primaryStage.setScene(sceneIntrebariGresite));
 
         buttonInapoiDinEseu.setOnAction(actionEvent -> {
+            stringBuilderTextEseu.delete(0, stringBuilderTextEseu.length());
             textEseu.setText("");
             primaryStage.setScene(sceneRezultate);
         });

@@ -2,3 +2,8 @@
 .checkbox input[type=radio]:focus + label::before {
     outline: none;
 }
+.checkbox label{
+    wrap-option: true;
+    word-wrap: normal;
+    text-wrap: normal;
+}

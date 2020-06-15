@@ -4,4 +4,10 @@
 
 .scroll-pane {
     -fx-background-color: transparent;
+    -fx-background-image: url("../resources/logo.png");
+    -fx-background-position: top left;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100px;
+
+
 }

@@ -1,7 +1,9 @@
 .button
 {
-    -fx-background-image: url("../resources/simplebanner.jpg");
     -fx-border-radius: 250;
+    -fx-background-image: url("../resources/simplebanner.jpg");
+    -fx-background-position: left top;
+    -fx-background-repeat: repeat;
     -fx-background-radius: 250;
     -fx-background-insets: 0;
     -fx-text-fill: lightblue;
