@@ -7,42 +7,43 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
     final static String url = "https://www.emedi.ro/";
 
-    static String fileNameEseuRomana1 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana1.txt";
-    static String fileNameEseuRomana2 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana2.txt";
-    static String fileNameEseuRomana3 = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuRomana3.txt";
-    static String fileNameEseuIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/eseuIstorie.txt";
+    static String fileNameEseuRomana1 = "eseuRomana1.txt";
+    static String fileNameEseuRomana2 = "eseuRomana2.txt";
+    static String fileNameEseuRomana3 = "eseuRomana3.txt";
+    static String fileNameEseuIstorie = "eseuIstorie.txt";
 
-    static String fileNameIntrebariRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/intrebariRomana.txt";
-    static String fileNameVar1Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var1Romana.txt";
-    static String fileNameVar2Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var2Romana.txt";
-    static String fileNameVar3Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var3Romana.txt";
-    static String fileNameVar4Romana = "/Users/biancacricler/Documents/cosmin/src/emedi/var4Romana.txt";
-    static String fileNameRaspunsCorectRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/raspunsRomana.txt";
-    static String fileNameFeedbackRomana = "/Users/biancacricler/Documents/cosmin/src/emedi/feedbackRomana.txt";
+    static String fileNameIntrebariRomana = "intrebariRomana.txt";
+    static String fileNameVar1Romana = "var1Romana.txt";
+    static String fileNameVar2Romana = "var2Romana.txt";
+    static String fileNameVar3Romana = "var3Romana.txt";
+    static String fileNameVar4Romana = "var4Romana.txt";
+    static String fileNameRaspunsCorectRomana = "raspunsRomana.txt";
+    static String fileNameFeedbackRomana = "feedbackRomana.txt";
 
-    static String fileNameIntrebariIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/intrebariIstorie.txt";
-    static String fileNameVar1Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var1Istorie.txt";
-    static String fileNameVar2Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var2Istorie.txt";
-    static String fileNameVar3Istorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var3Istorie.txt";
-    static String fileNameVar4IStorie = "/Users/biancacricler/Documents/cosmin/src/emedi/var4Istorie.txt";
-    static String fileNameRaspunsCorectIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/raspunsIstorie.txt";
-    static String fileNameFeedbackIstorie = "/Users/biancacricler/Documents/cosmin/src/emedi/feedbackIstorie.txt";
+    static String fileNameIntrebariIstorie = "intrebariIstorie.txt";
+    static String fileNameVar1Istorie = "var1Istorie.txt";
+    static String fileNameVar2Istorie = "var2Istorie.txt";
+    static String fileNameVar3Istorie = "var3Istorie.txt";
+    static String fileNameVar4IStorie = "var4Istorie.txt";
+    static String fileNameRaspunsCorectIstorie = "raspunsIstorie.txt";
+    static String fileNameFeedbackIstorie = "feedbackIstorie.txt";
 
     static ArrayList<String> listaIntrebari = new ArrayList<>();
     static ArrayList<String> listaVar1 = new ArrayList<>();
@@ -126,6 +127,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         primaryStage.setTitle("Platforma de testare Emedi");
         checkBoxA = new CheckBox();
         checkBoxA.setIndeterminate(false);
@@ -139,6 +141,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxD = new CheckBox();
         checkBoxD.setIndeterminate(false);
         checkBoxD.setWrapText(true);
+
+        feedbackText.setWrapText(true);
 
         Hyperlink hyperlink = new Hyperlink("Go to emedi home page");
         buttonEmedi.setOnAction(actionEvent -> {
@@ -176,7 +180,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxD.setOnAction(actionEvent -> {
             buttonVerificaRaspuns.setDisable(false);
         });
-        //
+
+        //scena initiala
         hBoxInceput1 = new HBox(50);
         hBoxInceput1.setPadding(new Insets(10, 12, 10, 12));
         buttonRomana.setAlignment(Pos.CENTER);
@@ -193,51 +198,54 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         vBoxInceput1.setPrefWidth(height);
         bunVenit.setWrapText(false);
         bunVenit.setFont(Font.font("arial", FontWeight.NORMAL, FontPosture.REGULAR, 40));
-        vBoxInceput1.setLayoutX(width / 6);
-        vBoxInceput1.setLayoutY(height / 3);
+//        vBoxInceput1.setLayoutX(width / 6);
+//        vBoxInceput1.setLayoutY(height / 3);
 
-        Pane panePrimaPaginaSelectie = new Pane();
-        panePrimaPaginaSelectie.setPadding(new Insets(12, 10, 12, 10));
-        panePrimaPaginaSelectie.getChildren().addAll(vBoxInceput1);
+//        Pane panePrimaPaginaSelectie = new Pane();
+//        panePrimaPaginaSelectie.setPadding(new Insets(12, 10, 12, 10));
+//        panePrimaPaginaSelectie.getChildren().addAll(vBoxInceput1);
 
-        Scene sceneSelectie = new Scene(panePrimaPaginaSelectie, width, height);
+        Scene sceneSelectie = new Scene(vBoxInceput1, width, height);
 
-        //
+        //scena start
         vBoxInceput = new VBox(50);
         vBoxInceput.setPadding(new Insets(15, 12, 15, 12));
         vBoxInceput.getChildren().addAll(materie, buttonIncepeTestul);
         vBoxInceput.setAlignment(Pos.CENTER);
 
-        StackPane stackPanePrimaPagina = new StackPane();
-        stackPanePrimaPagina.setPadding(new Insets(175, 175, 175, 175));
-        stackPanePrimaPagina.getChildren().addAll(vBoxInceput);
-        Scene sceneInitial = new Scene(stackPanePrimaPagina, width, height);
+//        StackPane stackPanePrimaPagina = new StackPane();
+//        stackPanePrimaPagina.setPadding(new Insets(175, 175, 175, 175));
+//        stackPanePrimaPagina.getChildren().addAll(vBoxInceput);
+        Scene sceneInitial = new Scene(vBoxInceput, width, height);
 
-        //ok
+        //Scena intrebarilor
         vBoxIntrebari = new VBox();
         vBoxIntrebari.setPadding(new Insets(15, 12, 15, 12));
         vBoxIntrebari.getChildren().addAll(questionNrField);
         vBoxIntrebari.setAlignment(Pos.CENTER);
-
-        rectangle1.setFill(Color.TRANSPARENT);
+        vBoxIntrebari.getStylesheets().add("emedi/css/vBoxIntrebari.css");
+        Image image = new Image(new FileInputStream("/Users/biancacricler/Documents/cosmin/src/emedi/resources/simplebanner.jpg"));
+        ImagePattern imagePattern = new ImagePattern(image);
+        rectangle1.setFill(imagePattern);
         rectangle1.setStroke(Color.BLACK);
         rectangle1.setStrokeWidth(2);
-        rectangle1.setWidth(width - 100);
+        rectangle1.setWidth(width/3);
         rectangle1.setHeight(50);
-
+        rectangle1.setArcHeight(50);
+        rectangle1.setArcWidth(50);
 
         StackPane stackPaneIntrebari = new StackPane();
-        stackPaneIntrebari.setPadding(new Insets(10, 10, 10, 10));
+        stackPaneIntrebari.setPadding(new Insets(60, 10, 10, 10));
         stackPaneIntrebari.getChildren().addAll(rectangle1, vBoxIntrebari);
 
         vBoxIntrebareSiVariante = new VBox(10);
         vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 52));
-        questionText.setWrappingWidth(rectangle1.getWidth() - 10);
+        questionText.setWrappingWidth(width-100);
         vBoxIntrebareSiVariante.getChildren().addAll(questionText, checkBoxA, checkBoxB, checkBoxC, checkBoxD);
         vBoxIntrebareSiVariante.setAlignment(Pos.CENTER_LEFT);
 
         hBoxButonVerificare = new HBox(10);
-        hBoxButonVerificare.setPadding(new Insets(15, 12, 50, 12));
+        hBoxButonVerificare.setPadding(new Insets(15, 100, 100, 12));
         hBoxButonVerificare.setAlignment(Pos.BOTTOM_RIGHT);
         hBoxButonVerificare.getChildren().add(buttonVerificaRaspuns);
 
@@ -249,48 +257,43 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         Scene sceneIntrebari = new Scene(borderPanePaginaIntrebari, width, height);
 
-
-        //
+        //scena feedback
         VBox vBoxCorectGresit = new VBox();
         vBoxCorectGresit.setPadding(new Insets(15, 12, 15, 12));
-        vBoxCorectGresit.setAlignment(Pos.CENTER);
         vBoxCorectGresit.getChildren().add(raspunsCorectGresit);
+        vBoxCorectGresit.setAlignment(Pos.CENTER);
 
         rectangle2.setFill(Color.TRANSPARENT);
         rectangle2.setStroke(Color.MEDIUMPURPLE);
         rectangle2.setStrokeWidth(2);
-        rectangle2.setWidth(width - 100);
-        rectangle2.setLayoutX(width / 2 - (width - 100) / 2);
+        rectangle2.setWidth(width/3);
+        rectangle2.setHeight(50);
+        rectangle2.setArcHeight(50);
+        rectangle2.setArcWidth(50);
 
-        vBoxFeedback = new VBox(10);
-        vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
-        feedbackText.prefWidthProperty().bind(rectangle2.widthProperty().subtract(10));
+        stackPaneFeedback.setPadding(new Insets(100, 10, 10, 10));
+        stackPaneFeedback.getChildren().addAll(rectangle2, vBoxCorectGresit);
+
         feedbackText.setWrapText(true);
         feedbackText.setAlignment(Pos.CENTER);
-        vBoxFeedback.getChildren().add(feedbackText);
-        vBoxFeedback.setAlignment(Pos.CENTER_LEFT);
-        rectangle2.heightProperty().bind(feedbackText.heightProperty().add(30));
-        rectangle2.setArcHeight(40);
-        rectangle2.setArcWidth(40);
 
-        stackPaneFeedback.setPadding(new Insets(10, 10, 10, 10));
-        stackPaneFeedback.getChildren().addAll(rectangle2, vBoxFeedback);
-        stackPaneFeedback.setAlignment(Pos.CENTER);
+        vBoxFeedback = new VBox();
+        vBoxFeedback.setPadding(new Insets(15, 12, 15, 12));
+        vBoxFeedback.getChildren().add(feedbackText);
+        vBoxFeedback.setAlignment(Pos.CENTER);
 
         HBox hBoxButUrmIntreb = new HBox();
-        hBoxButUrmIntreb.setPadding(new Insets(15, 12, 40, 12));
+        hBoxButUrmIntreb.setPadding(new Insets(15, 100, 100, 12));
         hBoxButUrmIntreb.getChildren().add(buttonUrmatoareaIntrebare);
         hBoxButUrmIntreb.setAlignment(Pos.CENTER_RIGHT);
 
         VBox vBoxFeedbackTotal = new VBox(30);
-        vBoxFeedbackTotal.getChildren().addAll(vBoxCorectGresit, stackPaneFeedback, hBoxButUrmIntreb);
+        vBoxFeedbackTotal.getChildren().addAll(stackPaneFeedback, vBoxFeedback, hBoxButUrmIntreb);
 
-        Pane paneFeedback = new Pane();
-        paneFeedback.getChildren().add(vBoxFeedbackTotal);
 
-        Scene sceneFeedback = new Scene(paneFeedback, width, height);
+        Scene sceneFeedback = new Scene(vBoxFeedbackTotal, width, height);
 
-        //
+        //scena rezultate
         vBoxButoaneRezultate = new VBox(15);
         vBoxButoaneRezultate.setPadding(new Insets(15, 12, 50, 12));
         vBoxButoaneRezultate.setAlignment(Pos.CENTER);
@@ -311,7 +314,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         Scene sceneRezultate = new Scene(paneRezultate, width, height);
 
-        //
+        //scena intrebari gresite
         vBoxIntrebariGresite = new VBox(10);
         vBoxIntrebariGresite.setPadding(new Insets(15, 15, 15, 15));
         buttonInapoiDinIntrebariGresite.setAlignment(Pos.BOTTOM_RIGHT);
@@ -324,7 +327,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneIntrebariGresite = new Scene(scrollPaneIntrebariGresite, width, height);
 
 
-        //
+        //scena eseu
         vBoxEseu = new VBox(15);
         vBoxEseu.setPadding(new Insets(15, 12, 15, 12));
         vBoxEseu.getChildren().addAll(titluEseu, textEseu, buttonInapoiDinEseu);
@@ -336,13 +339,17 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneEseu = new Scene(scrollPaneEseu, width, height);
         textEseu.setWrappingWidth(sceneEseu.getWidth() - 50);
 
-        //
+        // folosim css urile create
         sceneSelectie.getStylesheets().add("emedi/css/firstpage.css");
+        sceneSelectie.getStylesheets().add("emedi/css/buttons.css");
+
+
         sceneInitial.getStylesheets().add("emedi/css/firstpage.css");
         sceneInitial.getStylesheets().add("emedi/css/buttons.css");
 
         sceneIntrebari.getStylesheets().add("emedi/css/checkbox.css");
-        sceneIntrebari.getStylesheets().add("emedi/css/buttons.css");
+        sceneIntrebari.getStylesheets().add("emedi/css/buttonVerificaIntrebarea.css");
+        sceneIntrebari.getStylesheets().add("emedi/css/intrebari.css");
         sceneIntrebari.getStylesheets().add("emedi/css/whiteBackground.css");
 
         sceneFeedback.getStylesheets().add("emedi/css/buttons.css");
@@ -402,7 +409,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 e.printStackTrace();
             }
 
-            //buttonEseuIstorie.setVisible(false);
+            buttonEseuIstorie.setVisible(false);
 
             primaryStage.setScene(sceneInitial);
         });
@@ -509,6 +516,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 nextQuestion();
             }
         });
+        buttonVerificaRaspuns.setDefaultButton(true);
+        buttonUrmatoareaIntrebare.setDefaultButton(true);
+        buttonIncepeTestul.setDefaultButton(true);
+        buttonInapoiDinIntrebariGresite.setDefaultButton(true);
+        buttonInapoiDinEseu.setDefaultButton(true);
+        buttonRomana.setFocusTraversable(true);
+        buttonIstorie.setFocusTraversable(true);
+
 
         buttonEseuIstorie.setOnAction(actionEvent -> {
             try {
@@ -557,6 +572,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
                 primaryStage.setScene(sceneIntrebariGresite));
 
         buttonInapoiDinEseu.setOnAction(actionEvent -> {
+            textEseu.setText("");
             primaryStage.setScene(sceneRezultate);
         });
 
@@ -620,13 +636,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             raspunsCorectGresit.setText("Răspuns corect!");
             feedbackText.setText("Felicitari!");
         } else {
-            raspunsCorectGresit.setText("Raspuns gresit :( :( :(");
+            raspunsCorectGresit.setText("Raspuns gresit!");
             feedbackText.setText(listaFeedback.get(index));
             helperFeedbackFinal.append("• " + listaIntrebari.get(index) + "\n" +
-                    "A. " + listaVar1.get(index) + "\n" +
-                    "B. " + listaVar2.get(index) + "\n" +
-                    "C. " + listaVar3.get(index) + "\n" +
-                    "D. " + listaVar4.get(index) + "\n" + "\n");
+                    listaVar1.get(index) + "\n" +
+                    listaVar2.get(index) + "\n" +
+                    listaVar3.get(index) + "\n" +
+                    listaVar4.get(index) + "\n" + "\n");
         }
     }
 
