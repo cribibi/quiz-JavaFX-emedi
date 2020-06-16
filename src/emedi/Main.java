@@ -95,7 +95,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     VBox vBoxIntrebareSiVariante;
     HBox hBoxButonVerificare;
     HBox hBoxInceput1;
-    VBox vBoxIntrebareVarianteButoaneRaspuns;
 
     VBox vBoxRezultate;
     VBox vBoxButoaneRezultate;
@@ -157,6 +156,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         feedbackText.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 20));
         raspunsCorectGresit.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 15));
         buttonIntrebariGresite.setDisable(true);
+        intrebariGresiteText.setWrapText(true);
+        intrebariGresiteText.setMaxWidth(width-100);
 
         //buttonVerificaRaspuns.setDisable(true);
 
@@ -386,43 +387,15 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         buttonRomana.setOnAction(actionEvent -> {
             materie.setText("Test la limba romana");
 
-            try {
-                readFiles(fileNameIntrebariRomana, listaIntrebari);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            nrIntrebari = listaIntrebari.size();
 
-            try {
+                readFiles(fileNameIntrebariRomana, listaIntrebari);
+            nrIntrebari = listaIntrebari.size();
                 readFiles(fileNameVar1Romana, listaVar1);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar2Romana, listaVar2);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar3Romana, listaVar3);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar4Romana, listaVar4);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameRaspunsCorectRomana, listaRaspunsuriCorecte);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameFeedbackRomana, listaFeedback);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
             buttonEseuIstorie.setVisible(false);
 
@@ -431,44 +404,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         buttonIstorie.setOnAction(actionEvent -> {
             materie.setText("Test la istorie");
-
-            try {
                 readFiles(fileNameIntrebariIstorie, listaIntrebari);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
             nrIntrebari = listaIntrebari.size();
-
-            try {
                 readFiles(fileNameVar1Istorie, listaVar1);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar2Istorie, listaVar2);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar3Istorie, listaVar3);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameVar4IStorie, listaVar4);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameRaspunsCorectIstorie, listaRaspunsuriCorecte);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
                 readFiles(fileNameFeedbackIstorie, listaFeedback);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
             buttonEseu3.setVisible(false);
             buttonEseu2.setVisible(false);
@@ -696,35 +639,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     }
 
-    public static void readQuestions(String fileName, ArrayList<String> intrebare, ArrayList<String> var1,
-                                     ArrayList<String> var2, ArrayList<String> var3, ArrayList<String> var4,
-                                     ArrayList<String> raspuns, ArrayList<String> indicatii)
-            throws FileNotFoundException {
-        Scanner input = new Scanner(new File(fileName));
-        while (input.hasNext()) {
-            String line = input.nextLine();
-            String[] fields = line.split(";");
-            String i = fields[0];
-            String v1 = fields[1];
-            String v2 = fields[2];
-            String v3 = fields[3];
-            String v4 = fields[4];
-            String r = fields[5];
-            String c = fields[6];
-            intrebare.add(i);
-            var1.add(v1);
-            var2.add(v2);
-            var3.add(v3);
-            var4.add(v4);
-            raspuns.add(r);
-            indicatii.add(c);
-        }
-        nrIntrebari = intrebare.size();
-    }
+//    public static void readFiles(String fileName, ArrayList<String> list)
+//            throws FileNotFoundException {
+//        Scanner input = new Scanner(new File(fileName));
+//        while (input.hasNext()) {
+//            String line = input.nextLine();
+//            list.add(line);
+//        }
+//    }
 
-    public static void readFiles(String fileName, ArrayList<String> list)
-            throws FileNotFoundException {
-        Scanner input = new Scanner(new File(fileName));
+    public static void readFiles(String fileName, ArrayList<String> list) {
+        ClassLoader classLoader = Main.class.getClassLoader();
+        Scanner input = new Scanner(classLoader.getResourceAsStream(fileName));
         while (input.hasNext()) {
             String line = input.nextLine();
             list.add(line);
@@ -732,9 +658,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     }
 
     public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
-        //BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), Charset.forName("UTF-8"));
+        ClassLoader classLoader = Main.class.getClassLoader();
+
         BufferedReader reader
-                = new BufferedReader(new FileReader(fileName));
+                = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(fileName)));
         int theCharNum = reader.read();
         while(theCharNum != -1) {
             char theChar = (char) theCharNum;
@@ -742,4 +669,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             theCharNum = reader.read();
         }
     }
+
+
+
+//    public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
+//        //BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), Charset.forName("UTF-8"));
+//        BufferedReader reader
+//                = new BufferedReader(new FileReader(fileName));
+//        int theCharNum = reader.read();
+//        while(theCharNum != -1) {
+//            char theChar = (char) theCharNum;
+//            stringBuilderTextEseu.append(theChar);
+//            theCharNum = reader.read();
+//        }
+//    }
 }
