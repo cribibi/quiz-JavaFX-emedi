@@ -9,7 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -491,7 +490,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            titluEseu.setText("eseu istorie");
+            titluEseu.setText("Constitutia din 1866");
             textEseu.setText(stringBuilderTextEseu.toString());
             primaryStage.setScene(sceneEseu);
 

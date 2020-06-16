@@ -8,8 +8,15 @@ C
 A
 D
 A
-A
 C
 D
 B
-A
+A
+A
+D
+B
+D
+A
+D
+A
+
