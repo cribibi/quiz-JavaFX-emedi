@@ -7,22 +7,25 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URISyntaxException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class Main extends Application implements EventHandler<ActionEvent> {
@@ -33,22 +36,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     static String fileNameEseuRomana2 = "eseuRomana2.txt";
     static String fileNameEseuRomana3 = "eseuRomana3.txt";
     static String fileNameEseuIstorie = "eseuIstorie.txt";
-
-    static String fileNameIntrebariRomana = "intrebariRomana.txt";
-    static String fileNameVar1Romana = "var1Romana.txt";
-    static String fileNameVar2Romana = "var2Romana.txt";
-    static String fileNameVar3Romana = "var3Romana.txt";
-    static String fileNameVar4Romana = "var4Romana.txt";
-    static String fileNameRaspunsCorectRomana = "raspunsRomana.txt";
-    static String fileNameFeedbackRomana = "feedbackRomana.txt";
-
-    static String fileNameIntrebariIstorie = "intrebariIstorie.txt";
-    static String fileNameVar1Istorie = "var1Istorie.txt";
-    static String fileNameVar2Istorie = "var2Istorie.txt";
-    static String fileNameVar3Istorie = "var3Istorie.txt";
-    static String fileNameVar4IStorie = "var4Istorie.txt";
-    static String fileNameRaspunsCorectIstorie = "raspunsIstorie.txt";
-    static String fileNameFeedbackIstorie = "feedbackIstorie.txt";
+    static String testBacovia = "testBacovia.txt";
+    static String testIstorie = "testIstorie.txt";
 
     String caleImagineRectangle = "simplebanner.jpg";
 
@@ -83,7 +72,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     static int nrIntrebari;
     int result;
     int width = 1000;
-    int margine = 100;
     int height = 700;
     StringBuilder guess;
     StringBuilder helperFeedbackFinal = new StringBuilder("");
@@ -374,16 +362,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         buttonRomana.setOnAction(actionEvent -> {
             materie.setText("Test la limba romana");
 
-
-            readFiles(fileNameIntrebariRomana, listaIntrebari);
+            readFiles(testBacovia, listaIntrebari, listaVar1, listaVar2,
+                    listaVar3, listaVar4, listaRaspunsuriCorecte, listaFeedback);
             nrIntrebari = listaIntrebari.size();
-            readFiles(fileNameVar1Romana, listaVar1);
-            readFiles(fileNameVar2Romana, listaVar2);
-            readFiles(fileNameVar3Romana, listaVar3);
-            readFiles(fileNameVar4Romana, listaVar4);
-            readFiles(fileNameRaspunsCorectRomana, listaRaspunsuriCorecte);
-            readFiles(fileNameFeedbackRomana, listaFeedback);
-
             buttonEseuIstorie.setVisible(false);
 
             primaryStage.setScene(sceneInitial);
@@ -391,15 +372,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         buttonIstorie.setOnAction(actionEvent -> {
             materie.setText("Test la istorie");
-            readFiles(fileNameIntrebariIstorie, listaIntrebari);
+            readFiles(testIstorie, listaIntrebari, listaVar1, listaVar2, listaVar3, listaVar4, listaRaspunsuriCorecte, listaFeedback);
             nrIntrebari = listaIntrebari.size();
-            readFiles(fileNameVar1Istorie, listaVar1);
-            readFiles(fileNameVar2Istorie, listaVar2);
-            readFiles(fileNameVar3Istorie, listaVar3);
-            readFiles(fileNameVar4IStorie, listaVar4);
-            readFiles(fileNameRaspunsCorectIstorie, listaRaspunsuriCorecte);
-            readFiles(fileNameFeedbackIstorie, listaFeedback);
-
             buttonEseu3.setVisible(false);
             buttonEseu2.setVisible(false);
             buttonEseu1.setVisible(false);
@@ -625,12 +599,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
     }
 
-    //functioneaza
-//    public static void readImage(Rectangle rectangle, String caleImagineRectangle) throws IOException {
-//        Image image = new Image(new FileInputStream(caleImagineRectangle));
-//        ImagePattern imagePattern = new ImagePattern(image);
-//        rectangle.setFill(imagePattern);
-//    }
 
     public static void readImage(Rectangle rectangle, String caleImagineRectangle)  {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -641,12 +609,26 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle.setFill(new ImagePattern(new Image(imageResource.toExternalForm()), 0, 0, 1, 1, true));
     }
 
-    public static void readFiles(String fileName, ArrayList<String> list) {
+    public static void readFiles(String fileName, ArrayList<String> intrebare,
+                                 ArrayList<String>var1, ArrayList<String>var2, ArrayList<String>var3,
+                                 ArrayList<String> var4, ArrayList<String> raspuns, ArrayList<String> feedback) {
         ClassLoader classLoader = Main.class.getClassLoader();
         Scanner input = new Scanner(classLoader.getResourceAsStream(fileName));
         while (input.hasNext()) {
-            String line = input.nextLine();
-            list.add(line);
+            String intr = input.nextLine();
+            intrebare.add(intr);
+            String v1 = input.nextLine();
+            var1.add(v1);
+            String v2 = input.nextLine();
+            var2.add(v2);
+            String v3 = input.nextLine();
+            var3.add(v3);
+            String v4 = input.nextLine();
+            var4.add(v4);
+            String rasp = input.nextLine();
+            raspuns.add(rasp);
+            String feed = input.nextLine();
+            feedback.add(feed);
         }
     }
 
@@ -662,25 +644,4 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         }
     }
 
-
-//    public static void readFiles(String fileName, ArrayList<String> list)
-//            throws FileNotFoundException {
-//        Scanner input = new Scanner(new File(fileName));
-//        while (input.hasNext()) {
-//            String line = input.nextLine();
-//            list.add(line);
-//        }
-//    }
-
-//    public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
-//        //BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), Charset.forName("UTF-8"));
-//        BufferedReader reader
-//                = new BufferedReader(new FileReader(fileName));
-//        int theCharNum = reader.read();
-//        while(theCharNum != -1) {
-//            char theChar = (char) theCharNum;
-//            stringBuilderTextEseu.append(theChar);
-//            theCharNum = reader.read();
-//        }
-//    }
 }
