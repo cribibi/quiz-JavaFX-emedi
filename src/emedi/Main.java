@@ -12,11 +12,16 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 
@@ -44,6 +49,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     static String fileNameVar4IStorie = "var4Istorie.txt";
     static String fileNameRaspunsCorectIstorie = "raspunsIstorie.txt";
     static String fileNameFeedbackIstorie = "feedbackIstorie.txt";
+
+    String caleImagineRectangle = "simplebanner.jpg";
 
     static ArrayList<String> listaIntrebari = new ArrayList<>();
     static ArrayList<String> listaVar1 = new ArrayList<>();
@@ -156,25 +163,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         raspunsCorectGresit.setFont(Font.font("verdana", FontWeight.MEDIUM, FontPosture.REGULAR, 15));
         buttonIntrebariGresite.setDisable(true);
         intrebariGresiteText.setWrapText(true);
-        intrebariGresiteText.setMaxWidth(width-100);
-
-        //buttonVerificaRaspuns.setDisable(true);
-
-//        checkBoxA.setOnAction(actionEvent -> {
-//            buttonVerificaRaspuns.setDisable(false);
-//        });
-//
-//        checkBoxB.setOnAction(actionEvent -> {
-//            buttonVerificaRaspuns.setDisable(false);
-//        });
-//
-//        checkBoxC.setOnAction(actionEvent -> {
-//            buttonVerificaRaspuns.setDisable(false);
-//        });
-//
-//        checkBoxD.setOnAction(actionEvent -> {
-//            buttonVerificaRaspuns.setDisable(false);
-//        });
+        intrebariGresiteText.setMaxWidth(width - 100);
 
         //scena initiala
         hBoxInceput1 = new HBox(50);
@@ -211,13 +200,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         vBoxIntrebari.setAlignment(Pos.CENTER);
         vBoxIntrebari.getStylesheets().add("emedi/css/vBoxIntrebari.css");
 
-        Image image = new Image(new FileInputStream("/Users/biancacricler/Documents/cosmin/src/emedi/resources/simplebanner.jpg"));
-        ImagePattern imagePattern = new ImagePattern(image);
+        readImage(rectangle1, caleImagineRectangle);
+        //rectangle1.setFill(imagePattern);
 
-        rectangle1.setFill(imagePattern);
         rectangle1.setStroke(Color.BLACK);
         rectangle1.setStrokeWidth(2);
-        rectangle1.setWidth(width/3);
+        rectangle1.setWidth(width / 3);
         rectangle1.setHeight(50);
         rectangle1.setArcHeight(50);
         rectangle1.setArcWidth(50);
@@ -226,7 +214,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         stackPaneIntrebari.setPadding(new Insets(60, 10, 10, 10));
         stackPaneIntrebari.getChildren().addAll(rectangle1, vBoxIntrebari);
 
-        VBox vBoxVariante=new VBox(10);
+        VBox vBoxVariante = new VBox(10);
         vBoxVariante.getChildren().addAll(checkBoxA, checkBoxB, checkBoxC, checkBoxD);
         checkBoxA.setWrapText(true);
         checkBoxB.setWrapText(true);
@@ -236,10 +224,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         checkBoxB.wrapTextProperty();
         checkBoxC.wrapTextProperty();
         checkBoxD.wrapTextProperty();
-        checkBoxA.setMaxWidth(width/1.5);
-        checkBoxB.setMaxWidth(width/1.5);
-        checkBoxC.setMaxWidth(width/1.5);
-        checkBoxD.setMaxWidth(width/1.5);
+        checkBoxA.setMaxWidth(width / 1.5);
+        checkBoxB.setMaxWidth(width / 1.5);
+        checkBoxC.setMaxWidth(width / 1.5);
+        checkBoxD.setMaxWidth(width / 1.5);
 
 
         Group groupVariante = new Group();
@@ -248,7 +236,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         vBoxIntrebareSiVariante = new VBox(20);
         vBoxIntrebareSiVariante.setPadding(new Insets(15, 12, 15, 12));
-        questionText.setWrappingWidth(width-100);
+        questionText.setWrappingWidth(width - 100);
         questionText.setTextAlignment(TextAlignment.JUSTIFY);
         vBoxIntrebareSiVariante.getChildren().addAll(questionText, groupVariante);
         vBoxIntrebareSiVariante.setAlignment(Pos.CENTER);
@@ -275,7 +263,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         rectangle2.setFill(Color.TRANSPARENT);
         rectangle2.setStroke(Color.MEDIUMPURPLE);
         rectangle2.setStrokeWidth(2);
-        rectangle2.setWidth(width/3);
+        rectangle2.setWidth(width / 3);
         rectangle2.setHeight(50);
         rectangle2.setArcHeight(50);
         rectangle2.setArcWidth(50);
@@ -387,14 +375,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             materie.setText("Test la limba romana");
 
 
-                readFiles(fileNameIntrebariRomana, listaIntrebari);
+            readFiles(fileNameIntrebariRomana, listaIntrebari);
             nrIntrebari = listaIntrebari.size();
-                readFiles(fileNameVar1Romana, listaVar1);
-                readFiles(fileNameVar2Romana, listaVar2);
-                readFiles(fileNameVar3Romana, listaVar3);
-                readFiles(fileNameVar4Romana, listaVar4);
-                readFiles(fileNameRaspunsCorectRomana, listaRaspunsuriCorecte);
-                readFiles(fileNameFeedbackRomana, listaFeedback);
+            readFiles(fileNameVar1Romana, listaVar1);
+            readFiles(fileNameVar2Romana, listaVar2);
+            readFiles(fileNameVar3Romana, listaVar3);
+            readFiles(fileNameVar4Romana, listaVar4);
+            readFiles(fileNameRaspunsCorectRomana, listaRaspunsuriCorecte);
+            readFiles(fileNameFeedbackRomana, listaFeedback);
 
             buttonEseuIstorie.setVisible(false);
 
@@ -403,14 +391,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         buttonIstorie.setOnAction(actionEvent -> {
             materie.setText("Test la istorie");
-                readFiles(fileNameIntrebariIstorie, listaIntrebari);
+            readFiles(fileNameIntrebariIstorie, listaIntrebari);
             nrIntrebari = listaIntrebari.size();
-                readFiles(fileNameVar1Istorie, listaVar1);
-                readFiles(fileNameVar2Istorie, listaVar2);
-                readFiles(fileNameVar3Istorie, listaVar3);
-                readFiles(fileNameVar4IStorie, listaVar4);
-                readFiles(fileNameRaspunsCorectIstorie, listaRaspunsuriCorecte);
-                readFiles(fileNameFeedbackIstorie, listaFeedback);
+            readFiles(fileNameVar1Istorie, listaVar1);
+            readFiles(fileNameVar2Istorie, listaVar2);
+            readFiles(fileNameVar3Istorie, listaVar3);
+            readFiles(fileNameVar4IStorie, listaVar4);
+            readFiles(fileNameRaspunsCorectIstorie, listaRaspunsuriCorecte);
+            readFiles(fileNameFeedbackIstorie, listaFeedback);
 
             buttonEseu3.setVisible(false);
             buttonEseu2.setVisible(false);
@@ -635,17 +623,23 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-
     }
 
-//    public static void readFiles(String fileName, ArrayList<String> list)
-//            throws FileNotFoundException {
-//        Scanner input = new Scanner(new File(fileName));
-//        while (input.hasNext()) {
-//            String line = input.nextLine();
-//            list.add(line);
-//        }
+    //functioneaza
+//    public static void readImage(Rectangle rectangle, String caleImagineRectangle) throws IOException {
+//        Image image = new Image(new FileInputStream(caleImagineRectangle));
+//        ImagePattern imagePattern = new ImagePattern(image);
+//        rectangle.setFill(imagePattern);
 //    }
+
+    public static void readImage(Rectangle rectangle, String caleImagineRectangle)  {
+        ClassLoader classLoader = Main.class.getClassLoader();
+        URL imageResource = classLoader.getResource(caleImagineRectangle);
+        if (imageResource == null) {
+            throw new RuntimeException("Resource not found : " + caleImagineRectangle);
+        }
+        rectangle.setFill(new ImagePattern(new Image(imageResource.toExternalForm()), 0, 0, 1, 1, true));
+    }
 
     public static void readFiles(String fileName, ArrayList<String> list) {
         ClassLoader classLoader = Main.class.getClassLoader();
@@ -658,11 +652,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
         ClassLoader classLoader = Main.class.getClassLoader();
-
         BufferedReader reader
                 = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(fileName)));
         int theCharNum = reader.read();
-        while(theCharNum != -1) {
+        while (theCharNum != -1) {
             char theChar = (char) theCharNum;
             stringBuilderTextEseu.append(theChar);
             theCharNum = reader.read();
@@ -670,6 +663,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     }
 
 
+//    public static void readFiles(String fileName, ArrayList<String> list)
+//            throws FileNotFoundException {
+//        Scanner input = new Scanner(new File(fileName));
+//        while (input.hasNext()) {
+//            String line = input.nextLine();
+//            list.add(line);
+//        }
+//    }
 
 //    public static void readEssay(String fileName, StringBuilder stringBuilderTextEseu) throws IOException {
 //        //BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), Charset.forName("UTF-8"));
