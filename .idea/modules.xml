@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/cosmin.iml" filepath="$PROJECT_DIR$/cosmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/emedi.iml" filepath="$PROJECT_DIR$/emedi.iml" />
     </modules>
   </component>
 </project>

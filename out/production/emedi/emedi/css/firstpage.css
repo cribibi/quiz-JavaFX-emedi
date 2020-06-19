@@ -1,0 +1,19 @@
+.root {
+    -fx-background-image: url("../resources/coolBackground.jpg");
+}
+
+.label{
+    -fx-text-fill: lightblue;
+}
+
+
+
+
+
+
+
+
+
+
+
+

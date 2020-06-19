@@ -18,7 +18,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -82,23 +81,17 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     String[] titluriEseu = {"Tema si viziunea despre lume", "Titlu eseu 2", "Titlu eseu 3"};
 
     VBox vBoxInceput;
-
     Rectangle rectangle1 = new Rectangle();
     VBox vBoxIntrebari;
-
     VBox vBoxIntrebareSiVariante;
     HBox hBoxButonVerificare;
     HBox hBoxInceput1;
-
     VBox vBoxRezultate;
     VBox vBoxButoaneRezultate;
-
     VBox vBoxFeedback;
     Rectangle rectangle2 = new Rectangle();
-
     VBox vBoxIntrebariGresite;
     VBox vBoxEseu;
-
     Label questionNrField = new Label();
     Text rezultat = new Text("Punctaj: ");
     Text questionText = new Text();
@@ -111,7 +104,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Label intrebariGresiteText = new Label();
     Label feedbackText = new Label();
     Label raspunsCorectGresit = new Label();
-
     BorderPane borderPanePaginaIntrebari = new BorderPane();
     StackPane stackPaneFeedback = new StackPane();
 
@@ -279,7 +271,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         Scene sceneFeedback = new Scene(vBoxFeedbackTotal, width, height);
 
         //scena rezultate
-
         HBox hBoxButoaneEseuRomana = new HBox(10);
         hBoxButoaneEseuRomana.setPadding(new Insets(15, 12, 15, 12));
         hBoxButoaneEseuRomana.setAlignment(Pos.CENTER);
